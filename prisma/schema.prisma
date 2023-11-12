@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+
+model Participant {
+  id        Int      @id @default(autoincrement())
+  name      String
+  balance   Int
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @default(now()) @db.Timestamptz(6)
+  Bet       Bet[]
+  @@map("participants")
+}
+
+model Game {
+  id            Int      @id @default(autoincrement())
+  homeTeamName  String
+  awayTeamName  String
+  homeTeamScore Int
+  awayTeamScore Int
+  isFinished    Boolean
+  createdAt     DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime @default(now()) @db.Timestamptz(6)
+  Bet           Bet[]
+  @@map("games")
+}
+
+model Bet {
+  id            Int          @id @default(autoincrement())
+  status        String
+  homeTeamScore Int
+  awayTeamScore Int
+  amountBet     Int
+  amountWon     Int?
+  gameId        Int
+  participantId Int
+  createdAt     DateTime     @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime     @default(now()) @db.Timestamptz(6)
+  Game          Game         @relation(fields: [gameId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Participant   Participant  @relation(fields: [participantId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  @@map("bets")
+}

@@ -2,7 +2,7 @@
   "name": "bet-back",
   "version": "1.0.0",
   "description": "Projeto #23: Desafio Técnico - Quer apostar quanto? (back-end)",
-  "main": "index.js",
+  "main": "server.ts",
   "scripts": {
     "build": "ttsc -p tsconfig.build.json",
     "start": "node dist/src/server.js",
@@ -12,9 +12,13 @@
     "test": "npm run test:load-envs -- jest --passWithNoTests --runInBand",
     "coverage": "npx jest --coverage --runInBand --coverageReporters=json-summary --coverageDirectory=coverage --collectCoverageFrom='**/*.ts'",
     "test:coverage": "npx jest --coverage --runInBand --coverageReporters=html --coverageDirectory=coverage --collectCoverageFrom='**/*.ts'",
+    "test:migration:run": "npm run test:load-envs prisma migrate deploy",
+    "test:migration:generate": "npm run test:load-envs prisma migrate dev",
     "test:seed": "npm run test:load-envs prisma db seed",
     "test:load-envs": "dotenv -e .env.test --",
     "dev:load-envs": "dotenv -e .env.development --",
+    "dev:migration:run": "npm run dev:load-envs prisma migrate deploy",
+    "dev:migration:generate": "npm run dev:load-envs prisma migrate dev",
     "dev:seed": "npm run dev:load-envs prisma db seed",
     "dev": "npm run dev:load-envs -- nodemon --exec node -r ts-node/register src/server.ts",
     "prepare": "husky install"
@@ -23,6 +27,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^5.5.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
