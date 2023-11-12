@@ -1,0 +1,3 @@
+{
+  "*": "npx eslint --fix 'src/**/*.ts' 'tests/**/*.ts'"
+}

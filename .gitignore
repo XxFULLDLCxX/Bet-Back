@@ -1,0 +1,8 @@
+dist
+/scripts
+node_modules
+.env*
+!.env.example
+yarn.lock
+.vscode
+coverage
