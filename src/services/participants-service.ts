@@ -14,6 +14,11 @@ const create = ({ name, balance }: ParticipantInput) => {
   });
 };
 
+const read = () => {
+  return participantsRepository.findMany();
+};
+
 export const participantService = {
   create,
+  read,
 };

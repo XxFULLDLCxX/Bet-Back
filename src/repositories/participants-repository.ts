@@ -5,6 +5,10 @@ const create = (params: ParticipantParams) => {
   return prisma.participant.create({ data: params });
 };
 
+const findMany = () => {
+  return prisma.participant.findMany({});
+};
+
 const updateById = (params: Partial<ParticipantInput>, id: number) => {
   return prisma.participant.update({ where: { id }, data: { ...params, updatedAt: new Date() } });
 };
@@ -15,6 +19,7 @@ const findFirstById = (id: number) => {
 
 export const participantsRepository = {
   create,
+  findMany,
   updateById,
   findFirstById,
 };

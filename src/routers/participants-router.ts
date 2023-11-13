@@ -4,4 +4,6 @@ import { participantSchema } from '@/schemas';
 import { validateBody } from '@/middlewares';
 
 export const participantsRouter = Router();
-participantsRouter.post('/', validateBody(participantSchema), participantController.post);
+participantsRouter
+  .post('/', validateBody(participantSchema), participantController.post)
+  .get('/', participantController.get);
