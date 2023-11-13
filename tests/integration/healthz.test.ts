@@ -1,6 +1,6 @@
 import httpStatus from 'http-status';
 import supertest from 'supertest';
-import app from 'app';
+import app from '@/app';
 
 const server = supertest(app);
 

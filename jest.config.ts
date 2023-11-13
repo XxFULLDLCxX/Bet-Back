@@ -10,4 +10,10 @@ module.exports = {
     '@/(.*)': '<rootDir>/src/$1',
     '@test/(.*)': '<rootDir>/tests/$1',
   },
+  // },
+  // globals: {
+  //   'ts-jest': {
+  //     tsconfig: '<rootDir>/tsconfig.test.json',
+  //   },
+  // }
 };

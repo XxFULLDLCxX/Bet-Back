@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "lint:staged": "lint-staged",
     "postlint": "echo 'Well done! Your code has no linting errors.'",
-    "test": "npm run test:load-envs -- jest --passWithNoTests --runInBand",
+    "test": "npm run test:load-envs -- jest --passWithNoTests --runInBand --config jest.config.ts",
     "coverage": "npx jest --coverage --runInBand --coverageReporters=json-summary --coverageDirectory=coverage --collectCoverageFrom='**/*.ts'",
     "test:coverage": "npx jest --coverage --runInBand --coverageReporters=html --coverageDirectory=coverage --collectCoverageFrom='**/*.ts'",
     "test:migration:run": "npm run test:load-envs prisma migrate deploy",
@@ -38,6 +38,7 @@
     "prisma": "^5.5.2"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.2.0",
     "@types/cors": "^2.8.16",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.7",

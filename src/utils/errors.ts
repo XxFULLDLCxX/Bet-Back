@@ -1,9 +1,12 @@
 import httpStatus from 'http-status';
-import { AppError } from './protocols';
+import { AppError, ErrorCodes } from './protocols';
 
-export const setError = (code: number): AppError => ({ ...ERRORS[code], code });
+export const setError = (code: number, message: string = undefined): AppError => ({
+  code,
+  message: message || ERRORS[code].message,
+});
 
-const ERRORS = {
+const ERRORS: ErrorCodes = {
   [httpStatus.CONFLICT]: { message: 'Conflito de dados.' },
   [httpStatus.NOT_FOUND]: { message: 'Recurso não encontrado.' },
   [httpStatus.BAD_REQUEST]: { message: 'Solicitação inválida.' },
