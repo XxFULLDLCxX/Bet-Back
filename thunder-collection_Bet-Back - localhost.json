@@ -1,0 +1,141 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Bet-Back - localhost",
+    "dateExported": "2023-11-13T22:57:04.634Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "d40a60d5-6457-4c6d-b868-8db10d98574d",
+            "colId": "d5ce4f07-69ba-409e-876f-06aa5ab7e968",
+            "containerId": "",
+            "name": "GET /healthz",
+            "url": "localhost:5000/healthz",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-11-12T00:28:31.874Z",
+            "modified": "2023-11-12T00:29:45.472Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "e54d58f9-b2da-472e-bfcb-cc655906b703",
+            "colId": "d5ce4f07-69ba-409e-876f-06aa5ab7e968",
+            "containerId": "",
+            "name": "GET /participants",
+            "url": "localhost:5000/participants",
+            "method": "GET",
+            "sortNum": 15000,
+            "created": "2023-11-13T12:27:23.875Z",
+            "modified": "2023-11-13T12:27:41.937Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "d29fed32-0c90-45a8-9940-e345120966a3",
+            "colId": "d5ce4f07-69ba-409e-876f-06aa5ab7e968",
+            "containerId": "",
+            "name": "GET /games",
+            "url": "localhost:5000/games",
+            "method": "GET",
+            "sortNum": 17500,
+            "created": "2023-11-13T12:58:23.364Z",
+            "modified": "2023-11-13T12:58:42.424Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "34f5429c-012c-48ad-8222-973ab3f201fa",
+            "colId": "d5ce4f07-69ba-409e-876f-06aa5ab7e968",
+            "containerId": "",
+            "name": "GET /games/:id",
+            "url": "localhost:5000/games/37",
+            "method": "GET",
+            "sortNum": 18750,
+            "created": "2023-11-13T12:58:24.769Z",
+            "modified": "2023-11-13T22:55:48.749Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "1b13302a-cdb2-4de2-951c-0dde51ad8cf6",
+            "colId": "d5ce4f07-69ba-409e-876f-06aa5ab7e968",
+            "containerId": "",
+            "name": "POST /participants",
+            "url": "localhost:5000/participants",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-11-12T17:15:07.889Z",
+            "modified": "2023-11-13T13:52:21.983Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"João\",\n  \"balance\": \"1000\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "da1cf1df-1e08-4683-b7d6-e34e2ec7283a",
+            "colId": "d5ce4f07-69ba-409e-876f-06aa5ab7e968",
+            "containerId": "",
+            "name": "POST /games",
+            "url": "localhost:5000/games",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-11-13T04:26:44.134Z",
+            "modified": "2023-11-13T13:52:59.447Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"homeTeamName\": \"Flamengo\",\n  \"awayTeamName\": \"Fluminense\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "1420763e-107d-4d5c-96c3-dfaf68018876",
+            "colId": "d5ce4f07-69ba-409e-876f-06aa5ab7e968",
+            "containerId": "",
+            "name": "POST /bets",
+            "url": "localhost:5000/bets",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2023-11-13T06:10:18.988Z",
+            "modified": "2023-11-13T14:08:41.467Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"homeTeamScore\": 2,\n  \"awayTeamScore\": 2,\n  \"amountBet\": 1000,\n  \"gameId\": 12,\n  \"participantId\": 22\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "ad70ab4d-be34-4a04-a291-1604f1e1f6d0",
+            "colId": "d5ce4f07-69ba-409e-876f-06aa5ab7e968",
+            "containerId": "",
+            "name": "POST /games/:id/finish",
+            "url": "localhost:5000/games/13/finish",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-11-13T10:05:34.211Z",
+            "modified": "2023-11-13T13:54:48.012Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"homeTeamScore\": 2,\n  \"awayTeamScore\": 2\n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}

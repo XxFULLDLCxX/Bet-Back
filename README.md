@@ -8,6 +8,11 @@ ___
 ```bash 
 npm i
 ```
+___
+#### Rode a Migration:
+```bash 
+npm run dev:migration:run
+```
 ---
 <details>
   <summary>Sobre os Testes</summary>
@@ -19,6 +24,13 @@ npm i
   #### Para rodar os testes de uma feature específica:
   ```bash
   npm run test feature-name
+  ```
+  #### Para rodar o coverage: 
+  ```bash
+  npm run coverage
+  ```
+  ```bash
+  npm run test:coverage
   ```
 </details>
 

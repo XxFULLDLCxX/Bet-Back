@@ -1,0 +1,141 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Bet-Back - onrender",
+    "dateExported": "2023-11-13T22:54:57.867Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "3fbc74d4-6941-4718-89f2-29da90a995a7",
+            "colId": "7cf35662-360e-4711-b38d-f999d91c9b18",
+            "containerId": "",
+            "name": "GET /healthz",
+            "url": "https://bet-back-oahk.onrender.com/healthz",
+            "method": "GET",
+            "sortNum": 12500,
+            "created": "2023-11-13T22:21:05.092Z",
+            "modified": "2023-11-13T22:21:05.092Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "4ff1ec26-36ce-469c-945f-3c4d7b994cad",
+            "colId": "7cf35662-360e-4711-b38d-f999d91c9b18",
+            "containerId": "",
+            "name": "GET /participants",
+            "url": "https://bet-back-oahk.onrender.com/participants",
+            "method": "GET",
+            "sortNum": 15000,
+            "created": "2023-11-13T22:21:05.094Z",
+            "modified": "2023-11-13T22:51:14.997Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "5f1e81d1-15ff-4cdd-b4a9-afa9f3c999d0",
+            "colId": "7cf35662-360e-4711-b38d-f999d91c9b18",
+            "containerId": "",
+            "name": "GET /games",
+            "url": "https://bet-back-oahk.onrender.com/games",
+            "method": "GET",
+            "sortNum": 17500,
+            "created": "2023-11-13T22:21:05.095Z",
+            "modified": "2023-11-13T22:23:44.312Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "98817cd7-1077-48b7-83b6-87bfb2afb937",
+            "colId": "7cf35662-360e-4711-b38d-f999d91c9b18",
+            "containerId": "",
+            "name": "GET /games/:id",
+            "url": "https://bet-back-oahk.onrender.com/games/1",
+            "method": "GET",
+            "sortNum": 18750,
+            "created": "2023-11-13T22:21:05.096Z",
+            "modified": "2023-11-13T22:54:50.128Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "e2264e7b-acf0-4a44-9c08-90f44debcefa",
+            "colId": "7cf35662-360e-4711-b38d-f999d91c9b18",
+            "containerId": "",
+            "name": "POST /participants",
+            "url": "https://bet-back-oahk.onrender.com/participants",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-11-13T22:21:05.097Z",
+            "modified": "2023-11-13T22:24:24.950Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"José\",\n  \"balance\": \"3000\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "9bc9e98b-55fa-4859-9815-0a4580387deb",
+            "colId": "7cf35662-360e-4711-b38d-f999d91c9b18",
+            "containerId": "",
+            "name": "POST /games",
+            "url": "https://bet-back-oahk.onrender.com/games",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-11-13T22:21:05.098Z",
+            "modified": "2023-11-13T22:23:33.288Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"homeTeamName\": \"Flamengo\",\n  \"awayTeamName\": \"Fluminense\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "555d0d2a-1ec2-47b1-bcbd-08bafb4cce4e",
+            "colId": "7cf35662-360e-4711-b38d-f999d91c9b18",
+            "containerId": "",
+            "name": "POST /bets",
+            "url": "https://bet-back-oahk.onrender.com/bets",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2023-11-13T22:21:05.099Z",
+            "modified": "2023-11-13T22:23:28.960Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"homeTeamScore\": 2,\n  \"awayTeamScore\": 2,\n  \"amountBet\": 1000,\n  \"gameId\": 12,\n  \"participantId\": 22\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "db46dde5-e57f-4b27-aef5-f0d585e9e3b2",
+            "colId": "7cf35662-360e-4711-b38d-f999d91c9b18",
+            "containerId": "",
+            "name": "POST /games/:id/finish",
+            "url": "https://bet-back-oahk.onrender.com/games/1/finish",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-11-13T22:21:05.100Z",
+            "modified": "2023-11-13T22:23:24.407Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"homeTeamScore\": 2,\n  \"awayTeamScore\": 2\n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}
