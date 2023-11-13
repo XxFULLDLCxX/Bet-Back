@@ -1,7 +1,17 @@
 import Joi from 'joi';
-import { GameInput } from '@/utils';
+import { GameFinishInput, GameStartInput } from '@/utils';
 
-export const gameSchema = Joi.object<GameInput>({
+export const start = Joi.object<GameStartInput>({
   homeTeamName: Joi.string().required(),
   awayTeamName: Joi.string().required(),
 });
+
+export const finish = Joi.object<GameFinishInput>({
+  homeTeamScore: Joi.number().required(),
+  awayTeamScore: Joi.number().required(),
+});
+
+export const gameSchema = {
+  start,
+  finish,
+};

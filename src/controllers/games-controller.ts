@@ -1,23 +1,20 @@
 import { Request, Response } from 'express';
 import { gameService } from '@/services';
-import { GameInput } from '@/utils';
+import { GameFinishInput, GameStartInput } from '@/utils';
 
-async function post(req: Request, res: Response) {
-  const game = req.body as GameInput;
-  const { id, createdAt, updatedAt, homeTeamName, awayTeamName, homeTeamScore, awayTeamScore, isFinished } =
-    await gameService.create(game);
-  return res.status(201).send({
-    id,
-    createdAt,
-    updatedAt,
-    homeTeamName,
-    awayTeamName,
-    homeTeamScore,
-    awayTeamScore,
-    isFinished,
-  });
+async function postStart(req: Request, res: Response) {
+  const game = req.body as GameStartInput;
+  const result = await gameService.create(game);
+  return res.status(201).send(result);
+}
+
+async function postFinish(req: Request, res: Response) {
+  const game = req.body as GameFinishInput;
+  const result = await gameService.finish(game, Number(req.params.id));
+  return res.status(201).send(result);
 }
 
 export const gamesController = {
-  post,
+  postStart,
+  postFinish,
 };

@@ -2,10 +2,10 @@ import { faker } from '@faker-js/faker';
 import { prisma } from '@/config';
 import { BetInput } from '@/utils';
 
-export function generateBet({ amountBet, gameId, participantId }: Omit<BetInput, 'homeTeamScore' | 'awayTeamScore'>) {
+export function generateBet({ homeTeamScore, awayTeamScore, amountBet, gameId, participantId }: Partial<BetInput>) {
   const bet: BetInput = {
-    homeTeamScore: faker.number.int({ min: 0, max: 1000000 }),
-    awayTeamScore: faker.number.int({ min: 0, max: 1000000 }),
+    homeTeamScore: homeTeamScore | faker.number.int({ min: 0, max: 1000000 }),
+    awayTeamScore: awayTeamScore | faker.number.int({ min: 0, max: 1000000 }),
     amountBet: amountBet,
     gameId,
     participantId,
@@ -14,6 +14,12 @@ export function generateBet({ amountBet, gameId, participantId }: Omit<BetInput,
   return bet;
 }
 
-export function buildBet(amountBet: number, gameId: number, participantId: number) {
-  prisma.bet.create({ data: generateBet({ amountBet, gameId, participantId }) });
+export function buildBet(
+  gameId: number,
+  amountBet: number,
+  participantId: number,
+  homeTeamScore?: number,
+  awayTeamScore?: number,
+) {
+  return prisma.bet.create({ data: generateBet({ amountBet, gameId, participantId, homeTeamScore, awayTeamScore }) });
 }

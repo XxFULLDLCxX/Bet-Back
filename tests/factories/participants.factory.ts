@@ -13,3 +13,7 @@ export function generateParticipant(balance?: number) {
 export function buildParticipant(balance?: number) {
   return prisma.participant.create({ data: generateParticipant(balance) });
 }
+
+export function checkParticipant() {
+  return prisma.participant.findMany();
+}
