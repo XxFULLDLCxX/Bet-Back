@@ -40,3 +40,7 @@ npm run dev:migration:run
 npm run dev
 ```
 ---
+### Para ver o lint;
+```bash 
+npm run lint
+```
