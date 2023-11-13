@@ -86,3 +86,69 @@ describe('POST /games/:id/finish', () => {
   //   expect(body).toEqual({});
   // });
 });
+
+describe('GET /games', () => {
+  it('should return an array of game', async () => {
+    await buildStartGame();
+    const response = await server.get('/games');
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual([
+      {
+        id: expect.any(Number),
+        createdAt: expect.any(String),
+        updatedAt: expect.any(String),
+        homeTeamName: expect.any(String),
+        awayTeamName: expect.any(String),
+        homeTeamScore: expect.any(Number),
+        awayTeamScore: expect.any(Number),
+        isFinished: expect.any(Boolean),
+      },
+    ]);
+  });
+
+  it('should return an empty array when not has a game', async () => {
+    const response = await server.get('/games');
+    expect(response.status).toBe(httpStatus.OK);
+    expect(response.body).toEqual([]);
+  });
+});
+
+describe('GET /games/:id', () => {
+  it('should each participant should have the correct fields', async () => {
+    const participant = await buildParticipant(2000);
+    const game = await buildStartGame();
+    await buildBet(game.id, 500, participant.id, 2, 4);
+    await buildBet(game.id, 700, participant.id, 1, 2);
+    await buildBet(game.id, 300, participant.id, 5, 3);
+
+    const response = await server.get(`/games/${game.id}`);
+    expect(response.status).toBe(httpStatus.OK);
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        id: expect.any(Number),
+        createdAt: expect.any(String),
+        updatedAt: expect.any(String),
+        homeTeamName: expect.any(String),
+        awayTeamName: expect.any(String),
+        homeTeamScore: expect.any(Number),
+        awayTeamScore: expect.any(Number),
+        isFinished: expect.any(Boolean),
+        bets: expect.arrayContaining([
+          expect.objectContaining({
+            gameId: expect.any(Number),
+            participantId: expect.any(Number),
+            status: expect.any(String),
+          }),
+        ]),
+      }),
+    );
+  });
+  it('should respond with a status 422 if the id is invalid', async () => {
+    const response = await server.get('/games/undefined');
+    expect(response.status).toBe(httpStatus.UNPROCESSABLE_ENTITY);
+  });
+  it('should respond with a status 404 if the not found game', async () => {
+    const response = await server.get('/games/1');
+    expect(response.status).toBe(httpStatus.NOT_FOUND);
+  });
+});

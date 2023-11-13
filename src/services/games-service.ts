@@ -2,7 +2,7 @@ import httpStatus from 'http-status';
 import { GameFinishInput, GameStartInput, setError } from '@/utils';
 import { betsRepository, gamesRepository, participantsRepository } from '@/repositories';
 
-const create = ({ homeTeamName, awayTeamName }: GameStartInput) => {
+const start = ({ homeTeamName, awayTeamName }: GameStartInput) => {
   return gamesRepository.create({
     homeTeamName,
     awayTeamName,
@@ -44,7 +44,21 @@ const finish = async ({ homeTeamScore, awayTeamScore }: GameFinishInput, gameId:
   return gamesRepository.updateById({ homeTeamScore, awayTeamScore, isFinished: true }, gameId);
 };
 
+const read = () => {
+  return gamesRepository.findMany();
+};
+
+const readGameAndBets = async (id: number) => {
+  if (isNaN(id)) throw setError(httpStatus.UNPROCESSABLE_ENTITY, 'id não é válido');
+  const result = await gamesRepository.findByIdIncludeBet(id);
+  if (!result) throw setError(httpStatus.NOT_FOUND);
+  const { Bet, ...game } = result;
+  return { ...game, bets: Bet };
+};
+
 export const gameService = {
-  create,
+  readGameAndBets,
+  read,
+  start,
   finish,
 };
