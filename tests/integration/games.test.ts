@@ -93,11 +93,10 @@ describe('POST /games/:id/finish', () => {
         expect.objectContaining({ id: game.id, homeTeamScore: 2, awayTeamScore: 2, isFinished: true }),
       );
       const participants = await checkParticipant();
-      console.log(participants);
 
-      expect(participants[0].balance).toBe(1);
-      expect(participants[1].balance).toBe(1);
-      expect(participants[2].balance).toBe(2);
+      expect(participants[0].balance).toBe(1401);
+      expect(participants[1].balance).toBe(2801);
+      expect(participants[2].balance).toBe(1);
     });
 
     it('if the game update is successful', async () => {
@@ -134,11 +133,6 @@ describe('POST /games/:id/finish', () => {
     const { status } = await server.post(`/games/${game.id + 1}/finish`).send(input);
     expect(status).toBe(httpStatus.NOT_FOUND);
   });
-  // it('should respond with a status 422 if fields are invalid.', async () => {
-  //   const { status, body } = await server.post('/games').send({});
-  //   expect(status).toBe(httpStatus.UNPROCESSABLE_ENTITY);
-  //   expect(body).toEqual({});
-  // });
 });
 
 describe('GET /games', () => {

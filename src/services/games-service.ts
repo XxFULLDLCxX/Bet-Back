@@ -20,24 +20,23 @@ const finish = async ({ homeTeamScore, awayTeamScore }: GameFinishInput, gameId:
 
   const bets = await betsRepository.findManyByGameIdIncludeParticipant(gameId);
 
-  const win_participant_balance = bets.reduce((m, { amountBet, ...bet }) => {
+  const winAmountBet = bets.reduce((m, { amountBet, ...bet }) => {
     if (homeTeamScore === bet.homeTeamScore && awayTeamScore === bet.awayTeamScore) {
       return m + amountBet;
     }
     return m;
   }, 0);
 
-  const total_balance = bets.reduce((m, { Participant: { balance } }) => {
-    return m + balance;
+  const totalAmountBet = bets.reduce((m, { amountBet }) => {
+    return m + amountBet;
   }, 0);
 
   for (let i = 0; i < bets.length; i++) {
     const { Participant: p, ...bet } = bets[i];
-    let balance = 0;
     if (homeTeamScore === bet.homeTeamScore && awayTeamScore === bet.awayTeamScore) {
-      balance = (bet.amountBet / win_participant_balance) * total_balance * (1 - 0.3);
-      await betsRepository.updateById({ status: 'WON', amountWon: balance }, bet.id);
-      await participantsRepository.updateById({ balance: p.balance + balance }, p.id);
+      const winnings = (bet.amountBet / winAmountBet) * totalAmountBet * (1 - 0.3);
+      await betsRepository.updateById({ status: 'WON', amountWon: winnings }, bet.id);
+      await participantsRepository.updateById({ balance: p.balance + winnings }, p.id);
     } else {
       await betsRepository.updateById({ status: 'LOST', amountWon: 0 }, bet.id);
     }
