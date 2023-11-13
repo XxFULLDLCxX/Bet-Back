@@ -17,5 +17,5 @@ export function buildParticipant(balance?: number) {
 }
 
 export function checkParticipant() {
-  return prisma.participant.findMany();
+  return prisma.participant.findMany({});
 }

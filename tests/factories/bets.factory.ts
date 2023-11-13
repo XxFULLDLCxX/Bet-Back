@@ -4,8 +4,8 @@ import { BetInput } from '@/utils';
 
 export function generateBet({ homeTeamScore, awayTeamScore, amountBet, gameId, participantId }: Partial<BetInput>) {
   const bet: BetInput = {
-    homeTeamScore: homeTeamScore | faker.number.int({ min: 0, max: 1000000 }),
-    awayTeamScore: awayTeamScore | faker.number.int({ min: 0, max: 1000000 }),
+    homeTeamScore: homeTeamScore || faker.number.int({ min: 0, max: 1000000 }),
+    awayTeamScore: awayTeamScore || faker.number.int({ min: 0, max: 1000000 }),
     amountBet: amountBet,
     gameId,
     participantId,
@@ -22,4 +22,8 @@ export function buildBet(
   awayTeamScore?: number,
 ) {
   return prisma.bet.create({ data: generateBet({ amountBet, gameId, participantId, homeTeamScore, awayTeamScore }) });
+}
+
+export function checkBets() {
+  return prisma.bet.findMany({});
 }

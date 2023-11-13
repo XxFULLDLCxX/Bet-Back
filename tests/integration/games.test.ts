@@ -1,6 +1,5 @@
 import httpStatus from 'http-status';
 import supertest from 'supertest';
-import { Game } from '@prisma/client';
 import { cleanDb } from '../helpers';
 import {
   buildStartGame,
@@ -9,7 +8,7 @@ import {
   generateStartGameInput,
 } from '../factories/games.factory';
 import { buildParticipant, checkParticipant } from '../factories/participants.factory';
-import { buildBet } from '../factories/bets.factory';
+import { buildBet, checkBets } from '../factories/bets.factory';
 import app from '@/app';
 
 const server = supertest(app);
@@ -32,53 +31,108 @@ describe('POST /games', () => {
   });
 });
 
-const createScenery = async (game: Game) => {
-  const participants = [await buildParticipant(1000), await buildParticipant(2000), await buildParticipant(3000)];
-  const bets = [
-    await buildBet(game.id, 1000, participants[0].id, game.homeTeamScore, game.awayTeamScore),
-    await buildBet(game.id, 2000, participants[1].id, game.homeTeamScore, game.awayTeamScore),
-    await buildBet(game.id, 3000, participants[2].id, game.homeTeamScore + 1, game.awayTeamScore - 1),
-  ];
-  return { participants, bets };
-};
-
 describe('POST /games/:id/finish', () => {
   describe('should respond with a status 201', () => {
     it('if the game update is successful', async () => {
       const input = generateFinishGameInput();
       const { params } = generateStartGame();
       const game = await buildStartGame(params);
-      await createScenery({ ...game, ...input });
+      const before_participants = [
+        await buildParticipant(1000),
+        await buildParticipant(2000),
+        await buildParticipant(3000),
+      ];
+      await buildBet(game.id, 1000, before_participants[0].id, 2, 2);
+      await buildBet(game.id, 2000, before_participants[1].id, 2, 2);
+      await buildBet(game.id, 3000, before_participants[2].id, 3, 1);
+
       const { status, body } = await server.post(`/games/${game.id}/finish`).send(input);
       expect(status).toBe(httpStatus.CREATED);
       expect(body).toEqual(expect.objectContaining({ id: game.id, ...input, isFinished: true }));
     });
 
-    it('if participants have the correct balance', async () => {
-      const input = generateFinishGameInput();
+    it('if the bet update is successful', async () => {
       const { params } = generateStartGame();
       const game = await buildStartGame(params);
-      await createScenery({ ...game, ...input });
-      const { status, body } = await server.post(`/games/${game.id}/finish`).send(input);
+      const before_participants = [
+        await buildParticipant(1000),
+        await buildParticipant(2000),
+        await buildParticipant(3000),
+      ];
+      await buildBet(game.id, 1000, before_participants[0].id, 2, 2);
+      await buildBet(game.id, 2000, before_participants[1].id, 2, 2);
+      await buildBet(game.id, 3000, before_participants[2].id, 3, 1);
+
+      const { status, body } = await server
+        .post(`/games/${game.id}/finish`)
+        .send({ homeTeamScore: 2, awayTeamScore: 2 });
       expect(status).toBe(httpStatus.CREATED);
-      expect(body).toEqual(expect.objectContaining({ id: game.id, ...input, isFinished: true }));
+      expect(body).toEqual(
+        expect.objectContaining({ id: game.id, homeTeamScore: 2, awayTeamScore: 2, isFinished: true }),
+      );
+      const bets = await checkBets();
+
+      expect(bets[0].status).toBe('WON');
+      expect(bets[1].status).toBe('WON');
+      expect(bets[2].status).toBe('LOST');
+    });
+
+    it('if the participant update is successful', async () => {
+      const { params } = generateStartGame();
+      const game = await buildStartGame(params);
+      const before_participants = [await buildParticipant(1), await buildParticipant(1), await buildParticipant(1)];
+      await buildBet(game.id, 1000, before_participants[0].id, 2, 2);
+      await buildBet(game.id, 2000, before_participants[1].id, 2, 2);
+      await buildBet(game.id, 3000, before_participants[2].id, 3, 1);
+
+      const { status, body } = await server
+        .post(`/games/${game.id}/finish`)
+        .send({ homeTeamScore: 2, awayTeamScore: 2 });
+      expect(status).toBe(httpStatus.CREATED);
+      expect(body).toEqual(
+        expect.objectContaining({ id: game.id, homeTeamScore: 2, awayTeamScore: 2, isFinished: true }),
+      );
       const participants = await checkParticipant();
       console.log(participants);
 
-      expect(participants[0].balance).toBe(1400);
-      expect(participants[1].balance).toBe(2800);
-      expect(participants[2].balance).toBe(0);
+      expect(participants[0].balance).toBe(1);
+      expect(participants[1].balance).toBe(1);
+      expect(participants[2].balance).toBe(2);
     });
 
     it('if the game update is successful', async () => {
       const input = generateFinishGameInput();
       const { params } = generateStartGame();
       const game = await buildStartGame(params);
-      await createScenery({ ...game, ...input });
+      const before_participants = [
+        await buildParticipant(1000),
+        await buildParticipant(2000),
+        await buildParticipant(3000),
+      ];
+      await buildBet(game.id, 1000, before_participants[0].id, 2, 2);
+      await buildBet(game.id, 2000, before_participants[1].id, 2, 2);
+      await buildBet(game.id, 3000, before_participants[2].id, 3, 1);
+
       const { status, body } = await server.post(`/games/${game.id}/finish`).send(input);
       expect(status).toBe(httpStatus.CREATED);
       expect(body).toEqual(expect.objectContaining({ id: game.id, ...input, isFinished: true }));
     });
+  });
+  it(`should respond with a status 404 if the not found game`, async () => {
+    const input = generateFinishGameInput();
+    const { params } = generateStartGame();
+    const game = await buildStartGame(params);
+    const before_participants = [
+      await buildParticipant(1000),
+      await buildParticipant(2000),
+      await buildParticipant(3000),
+    ];
+    await buildBet(game.id, 1000, before_participants[0].id, 2, 2);
+    await buildBet(game.id, 2000, before_participants[1].id, 2, 2);
+    await buildBet(game.id, 3000, before_participants[2].id, 3, 1);
+
+    const { status } = await server.post(`/games/${game.id + 1}/finish`).send(input);
+    expect(status).toBe(httpStatus.NOT_FOUND);
   });
   // it('should respond with a status 422 if fields are invalid.', async () => {
   //   const { status, body } = await server.post('/games').send({});
