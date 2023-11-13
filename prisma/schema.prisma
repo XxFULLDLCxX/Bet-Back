@@ -36,7 +36,7 @@ model Game {
 
 model Bet {
   id            Int         @id @default(autoincrement())
-  status        String
+  status        String      @default("PENDING")
   homeTeamScore Int
   awayTeamScore Int
   amountBet     Int

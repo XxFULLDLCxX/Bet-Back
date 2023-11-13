@@ -11,5 +11,5 @@ export function generateParticipant(balance?: number) {
 }
 
 export function buildParticipant(balance?: number) {
-  prisma.participant.create({ data: generateParticipant(balance) });
+  return prisma.participant.create({ data: generateParticipant(balance) });
 }

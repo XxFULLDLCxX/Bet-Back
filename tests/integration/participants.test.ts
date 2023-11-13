@@ -2,7 +2,7 @@ import httpStatus from 'http-status';
 import supertest from 'supertest';
 import { faker } from '@faker-js/faker';
 import { cleanDb } from '../helpers';
-import { generateParticipant } from '../factories/participants.fatory';
+import { generateParticipant } from '../factories/participants.factory';
 import app from '@/app';
 
 const server = supertest(app);

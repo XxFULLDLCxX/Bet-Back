@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { prisma } from '@/config';
-import { GameInput } from '@/utils';
+import { GameInput, GameParams } from '@/utils';
 
 export function generateGame() {
   const game: GameInput = {
@@ -10,6 +10,6 @@ export function generateGame() {
   return game;
 }
 
-export function buildGame() {
-  prisma.game.create({ data: generateGame() });
+export function buildGame({ isFinished }: Partial<GameParams> = {}) {
+  return prisma.game.create({ data: { ...generateGame(), isFinished } });
 }

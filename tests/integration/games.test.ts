@@ -1,7 +1,7 @@
 import httpStatus from 'http-status';
 import supertest from 'supertest';
 import { cleanDb } from '../helpers';
-import { generateGame } from '../factories/games.fatory';
+import { generateGame } from '../factories/games.factory';
 import app from '@/app';
 
 const server = supertest(app);

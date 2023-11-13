@@ -1,4 +1,4 @@
-import { Game, Participant } from '@prisma/client';
+import { Bet, Game, Participant } from '@prisma/client';
 
 type ErrorMessage = { message: string };
 // type Optional<T, K extends keyof T> = K extends any ? { [P in K]-?: T[P] } & Partial<Omit<T, K>> : never;
@@ -9,3 +9,5 @@ export type ParticipantInput = Pick<Participant, 'name' | 'balance'>;
 export type ParticipantParams = Omit<Participant, 'id'>;
 export type GameInput = Pick<Game, 'homeTeamName' | 'awayTeamName'>;
 export type GameParams = Omit<Game, 'id'>;
+export type BetInput = Pick<Bet, 'homeTeamScore' | 'awayTeamScore' | 'amountBet' | 'gameId' | 'participantId'>;
+export type BetParams = Omit<Bet, 'id'>;
