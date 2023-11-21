@@ -27,5 +27,5 @@ export function buildBet(params: BuildBetParams) {
 }
 
 export function checkBets() {
-  return prisma.bet.findMany({});
+  return prisma.bet.findMany({ orderBy: { id: 'asc' } });
 }

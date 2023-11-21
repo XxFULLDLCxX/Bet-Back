@@ -38,7 +38,6 @@ describe('GET /participants', () => {
     expect(response.status).toBe(200);
     expect(response.body).toEqual(expect.arrayContaining([expect.objectContaining({ id, balance, name })]));
   });
-
   it('should each participant should have the correct fields', async () => {
     const participants = [await buildParticipant(), await buildParticipant(), await buildParticipant()];
     const response = await server.get('/participants');

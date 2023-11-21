@@ -35,7 +35,8 @@
     "http-status": "^1.7.3",
     "joi": "^17.11.0",
     "pg": "^8.11.3",
-    "prisma": "^5.5.2"
+    "prisma": "^5.5.2",
+    "xss": "^1.0.14"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.2.0",

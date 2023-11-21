@@ -1,11 +1,12 @@
 import httpStatus from 'http-status';
+import xss from 'xss';
 import { BetInput, GameFinishInput, GameStartInput, setError } from '@/utils';
 import { betsRepository, gamesRepository } from '@/repositories';
 
 const start = ({ homeTeamName, awayTeamName }: GameStartInput) => {
   return gamesRepository.create({
-    homeTeamName,
-    awayTeamName,
+    homeTeamName: xss(homeTeamName),
+    awayTeamName: xss(awayTeamName),
     homeTeamScore: 0,
     awayTeamScore: 0,
     isFinished: false,
