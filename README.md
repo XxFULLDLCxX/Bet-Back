@@ -72,3 +72,7 @@ npm run dev
 ```
 
 ---
+### Para ver o lint:
+```bash 
+npm run lint
+```
