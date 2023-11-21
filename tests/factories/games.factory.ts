@@ -32,7 +32,7 @@ export function generateStartGame() {
 
 export function generateFinishGame() {
   const input = generateFinishGameInput();
-  const game: GameParams = {
+  const params: GameParams = {
     homeTeamName: faker.company.name(),
     awayTeamName: faker.company.name(),
     ...input,
@@ -40,11 +40,11 @@ export function generateFinishGame() {
     createdAt: new Date(),
     updatedAt: new Date(),
   };
-  return { game, input };
+  return { params, input };
 }
 
 export function buildFinishGame(params?: GameParams) {
-  return prisma.game.create({ data: params || generateFinishGame().game });
+  return prisma.game.create({ data: params || generateFinishGame().params });
 }
 
 export function buildStartGame(params?: GameParams) {

@@ -14,14 +14,16 @@ export function generateBet({ homeTeamScore, awayTeamScore, amountBet, gameId, p
   return bet;
 }
 
-export function buildBet(
-  gameId: number,
-  amountBet: number,
-  participantId: number,
-  homeTeamScore?: number,
-  awayTeamScore?: number,
-) {
-  return prisma.bet.create({ data: generateBet({ amountBet, gameId, participantId, homeTeamScore, awayTeamScore }) });
+type BuildBetParams = {
+  gameId: number;
+  amountBet: number;
+  participantId: number;
+  homeTeamScore?: number;
+  awayTeamScore?: number;
+};
+
+export function buildBet(params: BuildBetParams) {
+  return prisma.bet.create({ data: generateBet(params) });
 }
 
 export function checkBets() {

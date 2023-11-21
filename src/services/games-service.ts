@@ -1,6 +1,6 @@
 import httpStatus from 'http-status';
-import { GameFinishInput, GameStartInput, setError } from '@/utils';
-import { betsRepository, gamesRepository, participantsRepository } from '@/repositories';
+import { BetInput, GameFinishInput, GameStartInput, setError } from '@/utils';
+import { betsRepository, gamesRepository } from '@/repositories';
 
 const start = ({ homeTeamName, awayTeamName }: GameStartInput) => {
   return gamesRepository.create({
@@ -17,31 +17,19 @@ const start = ({ homeTeamName, awayTeamName }: GameStartInput) => {
 const finish = async ({ homeTeamScore, awayTeamScore }: GameFinishInput, gameId: number) => {
   const game = await gamesRepository.findFirstById(gameId);
   if (!game) throw setError(httpStatus.NOT_FOUND, 'O id fornecido não corresponde a um jogo válido.');
+  if (game.isFinished) throw setError(httpStatus.CONFLICT, 'O jogo já foi finalizado!');
 
+  const isWinBet = (b: Partial<BetInput>) => homeTeamScore === b.homeTeamScore && awayTeamScore === b.awayTeamScore;
   const bets = await betsRepository.findManyByGameIdIncludeParticipant(gameId);
+  const winAmountBet = bets.reduce((m, { amountBet, ...bet }) => m + (isWinBet(bet) ? amountBet : 0), 0);
+  const totalAmountBet = bets.reduce((m, { amountBet }) => m + amountBet, 0);
 
-  const winAmountBet = bets.reduce((m, { amountBet, ...bet }) => {
-    if (homeTeamScore === bet.homeTeamScore && awayTeamScore === bet.awayTeamScore) {
-      return m + amountBet;
-    }
-    return m;
-  }, 0);
+  const updatingBets = bets.map((bet) => {
+    const amountWon = isWinBet(bet) ? (bet.amountBet / winAmountBet) * totalAmountBet * (1 - 0.3) : 0;
+    return betsRepository.updateById({ status: isWinBet(bet) ? 'WON' : 'LOST', amountWon }, bet.id);
+  });
 
-  const totalAmountBet = bets.reduce((m, { amountBet }) => {
-    return m + amountBet;
-  }, 0);
-
-  for (let i = 0; i < bets.length; i++) {
-    const { Participant: p, ...bet } = bets[i];
-    if (homeTeamScore === bet.homeTeamScore && awayTeamScore === bet.awayTeamScore) {
-      const winnings = (bet.amountBet / winAmountBet) * totalAmountBet * (1 - 0.3);
-      await betsRepository.updateById({ status: 'WON', amountWon: winnings }, bet.id);
-      await participantsRepository.updateById({ balance: p.balance + winnings }, p.id);
-    } else {
-      await betsRepository.updateById({ status: 'LOST', amountWon: 0 }, bet.id);
-    }
-  }
-
+  await betsRepository.executeActions(...updatingBets);
   return gamesRepository.updateById({ homeTeamScore, awayTeamScore, isFinished: true }, gameId);
 };
 

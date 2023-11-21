@@ -6,8 +6,11 @@ const create = (params: BetParams) => {
   return prisma.bet.create({ data: params });
 };
 
-const updateById = (params: Partial<BetParams>, id: number) => {
-  return prisma.bet.update({ where: { id }, data: { ...params, updatedAt: new Date() } });
+const updateById = ({ status, amountWon }: Partial<BetParams>, id: number) => {
+  return prisma.bet.update({
+    where: { id },
+    data: { status, amountWon, updatedAt: new Date(), Participant: { update: { balance: { increment: amountWon } } } },
+  });
 };
 
 const findManyByGameIdIncludeParticipant = (gameId: number) => {
