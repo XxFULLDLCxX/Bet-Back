@@ -6,7 +6,7 @@ const create = (params: ParticipantParams) => {
 };
 
 const findMany = () => {
-  return prisma.participant.findMany({});
+  return prisma.participant.findMany({ orderBy: { id: 'asc' } });
 };
 
 const updateById = (params: Partial<ParticipantInput>, id: number) => {

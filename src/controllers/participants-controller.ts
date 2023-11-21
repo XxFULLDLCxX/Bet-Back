@@ -4,8 +4,8 @@ import { ParticipantInput } from '@/utils';
 
 async function post(req: Request, res: Response) {
   const participant = req.body as ParticipantInput;
-  const { id, createdAt, updatedAt, name, balance } = await participantService.create(participant);
-  return res.status(201).send({ id, createdAt, updatedAt, name, balance });
+  const result = await participantService.create(participant);
+  return res.status(201).send(result);
 }
 
 async function get(_req: Request, res: Response) {

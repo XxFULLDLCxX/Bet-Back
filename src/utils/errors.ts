@@ -1,7 +1,7 @@
 import httpStatus from 'http-status';
 import { AppError, ErrorCodes } from './protocols';
 
-export const setError = (code: number, message: string = undefined): AppError => ({
+export const setError = (code: number, message?: string): AppError => ({
   code,
   message: message || ERRORS[code].message,
 });

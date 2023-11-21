@@ -14,16 +14,13 @@ const findManyByGameIdIncludeParticipant = (gameId: number) => {
   return prisma.bet.findMany({ where: { gameId }, include: { Participant: true } });
 };
 
-async function executeActions<T1 extends PrismaPromise<unknown>, T2 extends PrismaPromise<unknown>>(
-  action1: T1,
-  action2: T2,
-) {
-  return await prisma.$transaction([action1, action2]);
-}
+const executeActions = <P extends PrismaPromise<unknown>[]>(...actions: [...P]) => {
+  return prisma.$transaction([...actions]);
+};
 
 export const betsRepository = {
+  create,
   executeActions,
   findManyByGameIdIncludeParticipant,
   updateById,
-  create,
 };

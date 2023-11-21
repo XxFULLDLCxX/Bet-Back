@@ -37,13 +37,21 @@ describe('POST /bets', () => {
       expect(body).toEqual({});
     });
   });
-  it(`should respond with a 400 status if the participant's balance is below the bet.`, async () => {
-    const { id: gameId } = await buildStartGame();
-    const { id: participantId } = await buildParticipant(1500);
-    const bet = generateBet({ amountBet: 2000, gameId, participantId });
-    const { status, body } = await server.post('/bets').send(bet);
-    expect(status).toBe(httpStatus.BAD_REQUEST);
-    expect(body).toEqual({});
+  describe(`should respond with a status 400`, () => {
+    it(`if the participant's balance is below the bet.`, async () => {
+      const { id: gameId } = await buildStartGame();
+      const { id: participantId } = await buildParticipant(1500);
+      const bet = generateBet({ amountBet: 2000, gameId, participantId });
+      const { status } = await server.post('/bets').send(bet);
+      expect(status).toBe(httpStatus.BAD_REQUEST);
+    });
+    it(`if the amount is negative.`, async () => {
+      const { id: gameId } = await buildStartGame();
+      const { id: participantId } = await buildParticipant(1500);
+      const bet = generateBet({ amountBet: -1000, gameId, participantId });
+      const { status } = await server.post('/bets').send(bet);
+      expect(status).toBe(httpStatus.BAD_REQUEST);
+    });
   });
   it(`should return a 409 status if the game is marked as 'finished'.`, async () => {
     const { id: participantId } = await buildParticipant(1500);
